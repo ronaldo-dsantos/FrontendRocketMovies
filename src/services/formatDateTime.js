@@ -1,6 +1,6 @@
 export function formatDateTime(dateTimeString) {
   // Ajustar o formato da string para compatibilidade com o objeto Date
-  const [datePart, timePart] = dateTimeString.split(' ')
+  const [datePart, timePart] = dateTimeString.split(" ")
   const [year, month, day] = datePart.split('-').map(Number)
   const [hours, minutes] = timePart.split(':').map(Number)
 

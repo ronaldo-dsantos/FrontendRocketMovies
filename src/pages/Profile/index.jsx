@@ -14,107 +14,107 @@ import { Input } from "../../components/Input"
 import { Button } from "../../components/Button"
 
 export function Profile() {
-  const { user, updateProfile } = useAuth()
+    const { user, updateProfile } = useAuth()
 
-  const [name, setName] = useState(user.name)
-  const [email, setEmail] = useState(user.email)
-  const [oldPassword, setOldPassword] = useState()
-  const [newPassword, setNewPassword] = useState()
+    const [name, setName] = useState(user.name)
+    const [email, setEmail] = useState(user.email)
+    const [oldPassword, setOldPassword] = useState()
+    const [newPassword, setNewPassword] = useState()
 
-  const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder
+    const avatarUrl = user.avatar ? `${api.defaults.baseURL}/api/files/${user.avatar}` : avatarPlaceholder
 
-  const [avatar, setAvatar] = useState(avatarUrl)
-  const [avatarFile, setAvatarFile] = useState(null)
+    const [avatar, setAvatar] = useState(avatarUrl)
+    const [avatarFile, setAvatarFile] = useState(null)
 
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
-  function handleBack() {
-    navigate(-1)
-  }
-
-  async function handleUpdate() {
-    const updated = {
-      name,
-      email,
-      password: newPassword,
-      old_password: oldPassword
+    function handleBack() {
+        navigate(-1)
     }
 
-    const userUpdated = Object.assign(user, updated)
+    async function handleUpdate() {
+        const updated = {
+            name,
+            email,
+            password: newPassword,
+            oldPassword: oldPassword
+        }
 
-    await updateProfile({ user: userUpdated, avatarFile })
-  }
+        const userUpdated = Object.assign(user, updated)
 
-  function handleChangeAvatar(event) {
-    const file = event.target.files[0]
-    setAvatarFile(file)
+        await updateProfile({ user: userUpdated, avatarFile })
+    }
 
-    const imagePreview = URL.createObjectURL(file)
-    setAvatar(imagePreview)
-  }
+    function handleChangeAvatar(event) {
+        const file = event.target.files[0]
+        setAvatarFile(file)
 
-  return (
-    <Container>
-      <header>        
-        <ButtonText 
-          icon={FiArrowLeft} 
-          title="Voltar"
-          onClick={handleBack} 
-        />        
-      </header>
+        const imagePreview = URL.createObjectURL(file)
+        setAvatar(imagePreview)
+    }
 
-      <Form>
-        <Avatar>
-          <img
-            src={avatar}
-            alt="Imagem do usuário"
-          />
+    return (
+        <Container>
+            <header>
+                <ButtonText
+                    icon={FiArrowLeft}
+                    title="Voltar"
+                    onClick={handleBack}
+                />
+            </header>
 
-          <label htmlFor="avatar">
-            <FiCamera />
+            <Form>
+                <Avatar>
+                    <img
+                        src={avatar}
+                        alt="Imagem do usuário"
+                    />
 
-            <input
-              id="avatar"
-              type="file"
-              onChange={handleChangeAvatar}
-            />
-          </label>
-        </Avatar>
+                    <label htmlFor="avatar">
+                        <FiCamera />
 
-        <Input
-          placeholder="Nome"
-          type="text"
-          icon={FiUser}
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
+                        <input
+                            id="avatar"
+                            type="file"
+                            onChange={handleChangeAvatar}
+                        />
+                    </label>
+                </Avatar>
 
-        <Input
-          placeholder="E-mail"
-          type="text"
-          icon={FiMail}
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
+                <Input
+                    placeholder="Nome"
+                    type="text"
+                    icon={FiUser}
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                />
 
-        <Input
-          placeholder="Senha atual"
-          type="password"
-          icon={FiLock}
-          onChange={e => setOldPassword(e.target.value)}
-        />
+                <Input
+                    placeholder="E-mail"
+                    type="text"
+                    icon={FiMail}
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                />
 
-        <Input
-          placeholder="Nova senha"
-          type="password"
-          icon={FiLock}
-          onChange={e => setNewPassword(e.target.value)}
-        />
+                <Input
+                    placeholder="Senha atual"
+                    type="password"
+                    icon={FiLock}
+                    onChange={e => setOldPassword(e.target.value)}
+                />
 
-        <Button title="Salvar" onClick={handleUpdate} />
+                <Input
+                    placeholder="Nova senha"
+                    type="password"
+                    icon={FiLock}
+                    onChange={e => setNewPassword(e.target.value)}
+                />
 
-      </Form>
+                <Button title="Salvar" onClick={handleUpdate} />
 
-    </Container>
-  )
+            </Form>
+
+        </Container>
+    )
 }

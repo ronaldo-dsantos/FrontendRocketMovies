@@ -14,141 +14,141 @@ import { NoteItem } from "../../components/NoteItem"
 import { Button } from "../../components/Button"
 
 export function New() {
-  const [title, setTitle] = useState("")
-  const [rating, setRating] = useState("")
-  const [description, setDescription] = useState("")
+    const [title, setTitle] = useState("")
+    const [rating, setRating] = useState("")
+    const [description, setDescription] = useState("")
 
-  const [tags, setTags] = useState([])
-  const [newTag, setNewTag] = useState("")
+    const [tags, setTags] = useState([])
+    const [newTag, setNewTag] = useState("")
 
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
-  function handleBack() {
-    navigate(-1)
-  }
-
-  function handleAddTag() {
-    setTags(prevState => [...prevState, newTag])
-    setNewTag("")
-  }
-
-  function handleRemoveTag(deleted) {
-    setTags(prevState => prevState.filter(tag => tag !== deleted))
-  }
-
-  function handleClear() {
-    setTitle("")
-    setRating("")
-    setDescription("")
-    setTags([])
-    setNewTag("")
-  }
-
-  async function handleNewMovie() {
-    const ratingIsNumber = Math.round(rating)
-
-    if (!title || !rating || !description) {
-      return alert("Para cadastrar um novo filme, preencha todos os campos.")      
-    }    
-
-    if (ratingIsNumber < 1 || ratingIsNumber > 5 || isNaN(ratingIsNumber)) {
-      return alert("Informe uma nota de 1 a 5.")
+    function handleBack() {
+        navigate(-1)
     }
 
-    if (newTag) {
-      return alert("Você inseriu um marcador mas não adicionou, clique em adicionar ou deixe o campo vazio.")
+    function handleAddTag() {
+        setTags(prevState => [...prevState, newTag])
+        setNewTag("")
     }
 
-    if (tags.length == 0) {
-      return alert("Adicione um ou mais marcadores para o seu filme.")
+    function handleRemoveTag(deleted) {
+        setTags(prevState => prevState.filter(tag => tag !== deleted))
     }
 
-    await api.post("/movies", {
-      title,
-      description,
-      rating,
-      tags
-    })
+    function handleClear() {
+        setTitle("")
+        setRating("")
+        setDescription("")
+        setTags([])
+        setNewTag("")
+    }
 
-    alert("Filme cadastrado com sucesso!")
-    navigate(-1)
-  }
+    async function handleNewMovie() {
+        const ratingIsNumber = Math.round(rating)
 
-  return (
-    <Container>
-      <Header>
-        <Input
-          placeholder="Pesquisar pelo título"
-          onClick={handleBack}
-        />
-      </Header>
+        if (!title || !rating || !description) {
+            return alert("Para cadastrar um novo filme, preencha todos os campos.")
+        }
 
-      <main>
-        <ButtonText
-          icon={FiArrowLeft}
-          title="Voltar"
-          onClick={handleBack}
-        />
+        if (ratingIsNumber < 1 || ratingIsNumber > 5 || isNaN(ratingIsNumber)) {
+            return alert("Informe uma nota de 1 a 5.")
+        }
 
-        <Form>
-          <header>
-            <h1>Novo filme</h1>
-          </header>
+        if (newTag) {
+            return alert("Você inseriu um marcador mas não adicionou, clique em adicionar ou deixe o campo vazio.")
+        }
 
-          <div className="input">
-            <Input
-              placeholder="Título"
-              onChange={e => setTitle(e.target.value)}
-              value={title}
-            />
-            <Input
-              placeholder="Sua nota (de 0 a 5)"
-              onChange={e => setRating(e.target.value)}
-              value={rating}
-            />
-          </div>
+        if (tags.length == 0) {
+            return alert("Adicione um ou mais marcadores para o seu filme.")
+        }
 
-          <TextArea
-            placeholder="Observações"
-            onChange={e => setDescription(e.target.value)}
-            value={description}
-          />
+        await api.post("/api/movies", {
+            title,
+            description,
+            rating,
+            tags
+        })
 
-          <h2>Marcadores</h2>
+        alert("Filme cadastrado com sucesso!")
+        navigate(-1)
+    }
 
-          <div className="tags">
-            {
-              tags.map((tag, index) => (
-                <NoteItem
-                  key={String(index)}
-                  value={tag}
-                  onClick={() => handleRemoveTag(tag)}
+    return (
+        <Container>
+            <Header>
+                <Input
+                    placeholder="Pesquisar pelo título"
+                    onClick={handleBack}
                 />
-              ))
-            }
+            </Header>
 
-            <NoteItem
-              isNew
-              placeholder="Novo marcador"
-              onChange={e => setNewTag(e.target.value)}
-              value={newTag}
-              onClick={handleAddTag}
-            />
-          </div>
+            <main>
+                <ButtonText
+                    icon={FiArrowLeft}
+                    title="Voltar"
+                    onClick={handleBack}
+                />
 
-          <div className="buttons">
-            <Button
-              title="Limpar"
-              onClick={handleClear}
-            />
-            <Button
-              title="Salvar"
-              onClick={handleNewMovie}
-            />
-          </div>
-        </Form>
-      </main>
+                <Form>
+                    <header>
+                        <h1>Novo filme</h1>
+                    </header>
 
-    </Container>
-  )
+                    <div className="input">
+                        <Input
+                            placeholder="Título"
+                            onChange={e => setTitle(e.target.value)}
+                            value={title}
+                        />
+                        <Input
+                            placeholder="Sua nota (de 0 a 5)"
+                            onChange={e => setRating(e.target.value)}
+                            value={rating}
+                        />
+                    </div>
+
+                    <TextArea
+                        placeholder="Observações"
+                        onChange={e => setDescription(e.target.value)}
+                        value={description}
+                    />
+
+                    <h2>Marcadores</h2>
+
+                    <div className="tags">
+                        {
+                            tags.map((tag, index) => (
+                                <NoteItem
+                                    key={String(index)}
+                                    value={tag}
+                                    onClick={() => handleRemoveTag(tag)}
+                                />
+                            ))
+                        }
+
+                        <NoteItem
+                            isNew
+                            placeholder="Novo marcador"
+                            onChange={e => setNewTag(e.target.value)}
+                            value={newTag}
+                            onClick={handleAddTag}
+                        />
+                    </div>
+
+                    <div className="buttons">
+                        <Button
+                            title="Limpar"
+                            onClick={handleClear}
+                        />
+                        <Button
+                            title="Salvar"
+                            onClick={handleNewMovie}
+                        />
+                    </div>
+                </Form>
+            </main>
+
+        </Container>
+    )
 }

@@ -17,98 +17,98 @@ import { Rating } from "../../components/Rating"
 import { Button } from "../../components/Button"
 
 export function Details() {
-  const [data, setData] = useState(null)
+    const [data, setData] = useState(null)
 
-  const params = useParams()
-  const navigate = useNavigate()
+    const params = useParams()
+    const navigate = useNavigate()
 
-  function handleBack() {
-    navigate(-1)
-  }
-
-  async function handleRemove() {
-    const confirm = window.confirm("Deseja realmente excluir o filme?")
-
-    if (confirm) {
-      await api.delete(`/movies/${params.id}`)
-      handleBack()
-    }
-  }
-
-  useEffect(() => {
-    async function fetchMovie() {
-      const response = await api.get(`/movies/${params.id}`)
-      setData(response.data)
+    function handleBack() {
+        navigate(-1)
     }
 
-    fetchMovie()
-  }, [])
+    async function handleRemove() {
+        const confirm = window.confirm("Deseja realmente excluir o filme?")
 
-  return (
-    <Container>
-      <Header>
-        <Input
-          placeholder="Pesquisar pelo título"
-          onClick={handleBack}
-        />
-      </Header>
+        if (confirm) {
+            await api.delete(`/api/movies/${params.id}`)
+            handleBack()
+        }
+    }
 
-      {
-        data &&
-        <Content>
-          <ButtonText
-            icon={FiArrowLeft}
-            title="Voltar"
-            onClick={handleBack}
-          />
+    useEffect(() => {
+        async function fetchMovie() {
+            const response = await api.get(`/api/movies/${params.id}`)
+            setData(response.data)
+        }
 
-          <Title>
-            <div>
-              <h1>
-                {data.title}
-              </h1>
-            
-              <Rating rating={data.rating} />
-            </div>
+        fetchMovie()
+    }, [])
 
-            <Button
-              id="remove"
-              title="Excluir filme"
-              onClick={handleRemove}
-            />
-          </Title>
+    return (
+        <Container>
+            <Header>
+                <Input
+                    placeholder="Pesquisar pelo título"
+                    onClick={handleBack}
+                />
+            </Header>
 
-          <Author>
-            <img
-              src={data.avatar ? `${api.defaults.baseURL}/files/${data.avatar}` : avatarPlaceholder}
-              alt={data.name}
-            />
-            <p>{data.name}</p>
-            <LuClock3 />
-            <p>{formatDateTime(data.created_at)}</p>
-          </Author>
+            {
+                data &&
+                <Content>
+                    <ButtonText
+                        icon={FiArrowLeft}
+                        title="Voltar"
+                        onClick={handleBack}
+                    />
 
-          {
-            data.tags &&
-            <Tags>
-              {
-                data.tags.map(tag => (
-                  <Tag
-                    key={String(tag.id)}
-                    title={tag.name}
-                  />
-                ))
-              }
-            </Tags>
-          }
+                    <Title>
+                        <div>
+                            <h1>
+                                {data.movie.title}
+                            </h1>
 
-          <p>
-            {data.description}
-          </p>
-        </Content>
-      }
+                            <Rating rating={data.movie.rating} />
+                        </div>
 
-    </Container>
+                        <Button
+                            id="remove"
+                            title="Excluir filme"
+                            onClick={handleRemove}
+                        />
+                    </Title>
 
-  )
+                    <Author>
+                        <img
+                            src={data.userAvatar ? `${api.defaults.baseURL}/api/files/${data.userAvatar}` : avatarPlaceholder}
+                            alt={data.userName}
+                        />
+                        <p>{data.userName}</p>
+                        <LuClock3 />
+                        <p>{formatDateTime(data.movie.createdAt)}</p>
+                    </Author>
+
+                    {
+                        data.movie.tags &&
+                        <Tags>
+                            {
+                                data.movie.tags.map(tag => (
+                                    <Tag
+                                        key={String(tag.id)}
+                                        title={tag.name}
+                                    />
+                                ))
+                            }
+                        </Tags>
+                    }
+
+                    <p>
+                        {data.movie.description}
+                    </p>
+                </Content>
+            }
+
+        </Container>
+
+    )
 }
