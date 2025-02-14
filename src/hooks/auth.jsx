@@ -8,7 +8,7 @@ function AuthProvider({ children }) {
     const [data, setData] = useState({})
 
     async function SignIn({ email, password }) {
-        
+
         try {
             const response = await api.post("/api/sessions", { email, password })
             const { user, token } = response.data
@@ -21,19 +21,19 @@ function AuthProvider({ children }) {
             setData({ user, token })
         } catch (error) {
             if (error.response) {
-                const errorData = error.response.data;
+                const errorData = error.response.data
 
                 if (errorData.errors) {
                     const messages = Object.values(errorData.errors)
                         .flat()
-                        .join("\n"); 
+                        .join("\n")
 
-                    alert(`${messages}`);
+                    alert(`${messages}`)
                 } else {
-                    alert(errorData.message || "Erro desconhecido ao cadastrar.");
+                    alert(errorData.message || "Não foi possível entrar.")
                 }
             } else {
-                alert("Não foi possível cadastrar.");
+                alert("Não foi possível entrar.")
             }
         }
     }
@@ -47,30 +47,45 @@ function AuthProvider({ children }) {
 
     async function updateProfile({ user, avatarFile }) {
         try {
+            let updatedUser = { ...user }
+
             if (avatarFile) {
                 const fileUploadForm = new FormData()
                 fileUploadForm.append("avatar", avatarFile)
 
-                const response = await api.patch("users/avatar", fileUploadForm)
-                user.avatar = response.data.avatar
+                const avatarResponse = await api.patch("/api/users/avatar", fileUploadForm)
+                updatedUser.avatar = avatarResponse.data.avatar
             }
 
-            await api.put("/api/users", user)
+            const response = await api.put("/api/users", updatedUser)
+            if (response.status === 200) {
+                updatedUser = response.data.user
+                localStorage.setItem("@rocketmovies:user", JSON.stringify(updatedUser))
+                setData({ user: updatedUser, token: data.token })
 
-            //const { password, old_password, ...userData } = user
-
-            localStorage.setItem("@rocketmovies:user", JSON.stringify(user))
-
-            setData({ user, token: data.token })
-            alert("Perfil atualizado com sucesso!")
-
-        } catch (error) {
-            if (error.response) {
-                alert(error.response.data.message)
+                alert("Perfil atualizado com sucesso!")
             } else {
-                alert("Não foi possível atualizar o perfil.")
+                console.log("Erro inesperado na API:", response)
+                alert("Erro ao atualizar o perfil. Tente novamente.")
             }
-        }
+
+        }catch (error) {
+            if (error.response) {
+                const errorData = error.response.data
+
+                if (errorData.errors) {
+                    const messages = Object.values(errorData.errors)
+                        .flat()
+                        .join("\n")
+
+                    alert(`${messages}`)
+                } else {
+                    alert(errorData.message || "Não foi possível atualizar.")
+                }
+            } else {
+                alert("Não foi possível atualizar.")
+            } 
+        }      
     }
 
     useEffect(() => {

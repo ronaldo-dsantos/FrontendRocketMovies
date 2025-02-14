@@ -38,10 +38,10 @@ export function Profile() {
             email,
             password: newPassword,
             oldPassword: oldPassword
-        }
+        };    
 
-        const userUpdated = Object.assign(user, updated)
-
+        const userUpdated = Object.assign({}, user, updated)
+    
         await updateProfile({ user: userUpdated, avatarFile })
     }
 
