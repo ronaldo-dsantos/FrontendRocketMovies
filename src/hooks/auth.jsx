@@ -8,7 +8,7 @@ function AuthProvider({ children }) {
     const [data, setData] = useState({})
 
     async function SignIn({ email, password }) {
-
+        
         try {
             const response = await api.post("/api/sessions", { email, password })
             const { user, token } = response.data
@@ -21,9 +21,19 @@ function AuthProvider({ children }) {
             setData({ user, token })
         } catch (error) {
             if (error.response) {
-                alert(error.response.data.message)
+                const errorData = error.response.data;
+
+                if (errorData.errors) {
+                    const messages = Object.values(errorData.errors)
+                        .flat()
+                        .join("\n"); 
+
+                    alert(`${messages}`);
+                } else {
+                    alert(errorData.message || "Erro desconhecido ao cadastrar.");
+                }
             } else {
-                alert("Não foi possível entrar.")
+                alert("Não foi possível cadastrar.");
             }
         }
     }

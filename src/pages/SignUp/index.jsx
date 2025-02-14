@@ -27,9 +27,19 @@ export function SignUp() {
             })
             .catch(error => {
                 if (error.response) {
-                    alert(error.response.data.message)
+                    const errorData = error.response.data;
+
+                    if (errorData.errors) {
+                        const messages = Object.values(errorData.errors)
+                            .flat()
+                            .join("\n"); 
+
+                        alert(`${messages}`);
+                    } else {
+                        alert(errorData.message || "Erro desconhecido ao cadastrar.");
+                    }
                 } else {
-                    alert("Não foi possível cadastrar")
+                    alert("Não foi possível cadastrar.");
                 }
             })
     }
