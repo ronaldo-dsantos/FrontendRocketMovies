@@ -51,10 +51,28 @@ export const Content = styled.div`
     }
   }
 
-  > button#remove {
-    margin: 40px 0 40px;
-    width: 30%;
-  }  
+  .buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+
+    button {
+      width: auto;
+      padding: 10px 20px; 
+      display: flex;
+      align-items: center;
+
+      &:nth-child(1) {
+        background-color: ${({ theme }) => theme.COLORS.BLACK};
+        color: ${({ theme }) => theme.COLORS.PINK};
+      }
+
+      &:nth-child(2) {
+        background-color: ${({ theme }) => theme.COLORS.PINK};
+        color: ${({ theme }) => theme.COLORS.BLACK};
+      }
+    }
+  } 
 `
 
 export const Title = styled.div`

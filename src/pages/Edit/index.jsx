@@ -1,9 +1,8 @@
 import { FiArrowLeft } from "react-icons/fi"
-import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import { useState, useEffect } from "react"
 
 import { Container, Form } from "./styles"
-
 import { api } from "../../services/api"
 
 import { Header } from "../../components/Header"
@@ -13,18 +12,18 @@ import { TextArea } from "../../components/TextArea"
 import { NoteItem } from "../../components/NoteItem"
 import { Button } from "../../components/Button"
 
-export function New() {
+export function Edit() {
     const [title, setTitle] = useState("")
     const [rating, setRating] = useState("")
     const [description, setDescription] = useState("")
-
     const [tags, setTags] = useState([])
     const [newTag, setNewTag] = useState("")
 
+    const { id } = useParams()
     const navigate = useNavigate()
 
     function handleBack() {
-        navigate(-1)
+        navigate("/")
     }
 
     function handleAddTag() {
@@ -44,11 +43,11 @@ export function New() {
         setNewTag("")
     }
 
-    async function handleNewMovie() {
-        const ratingIsNumber = Math.round(rating)
+    async function handleEditMovie() {
+        const ratingIsNumber = Math.round(Number(rating))
 
         if (!title || !rating || !description) {
-            return alert("Preencha todos os campos para cadastrar um filme.")
+            return alert("Preencha todos os campos para atualizar o filme.")
         }
 
         if (ratingIsNumber < 1 || ratingIsNumber > 5 || isNaN(ratingIsNumber)) {
@@ -59,20 +58,39 @@ export function New() {
             return alert("Você inseriu um marcador mas não adicionou, clique em adicionar ou deixe o campo vazio.")
         }
 
-        if (tags.length == 0) {
+        if (tags.length === 0) {
             return alert("Adicione um ou mais marcadores para o seu filme.")
         }
 
-        await api.post("/api/movies", {
+        await api.put(`/api/movies/${id}`, {
             title,
             description,
             rating,
             tags
         })
 
-        alert("Filme cadastrado com sucesso!")
-        navigate(-1)
+        alert("Filme atualizado com sucesso!")
+        navigate("/")
     }
+
+    useEffect(() => {
+        async function fetchMovie() {
+            try {
+                const response = await api.get(`/api/movies/${id}`)
+                const { movie } = response.data
+
+                setTitle(movie.title)
+                setRating(movie.rating)
+                setDescription(movie.description)
+                setTags(movie.tags.map(tag => tag.name))
+            } catch (error) {
+                alert("Erro ao carregar os dados do filme.")
+                console.error(error)
+            }
+        }
+
+        fetchMovie()
+    }, [id])
 
     return (
         <Container>
@@ -92,7 +110,7 @@ export function New() {
 
                 <Form>
                     <header>
-                        <h1>Novo filme</h1>
+                        <h1>Editar filme</h1>
                     </header>
 
                     <div className="input">
@@ -142,8 +160,8 @@ export function New() {
                             onClick={handleClear}
                         />
                         <Button
-                            title="Salvar"
-                            onClick={handleNewMovie}
+                            title="Salvar alterações"
+                            onClick={handleEditMovie}
                         />
                     </div>
                 </Form>

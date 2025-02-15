@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { FiArrowLeft } from "react-icons/fi"
+import { FiArrowLeft, FiEdit } from "react-icons/fi"
 import { LuClock3 } from "react-icons/lu"
 import { useParams, useNavigate } from "react-router-dom"
 
@@ -24,6 +24,10 @@ export function Details() {
 
     function handleBack() {
         navigate(-1)
+    }
+
+    function handleEdit() {
+        navigate(`/edit/${params.id}`)
     }
 
     async function handleRemove() {
@@ -70,12 +74,6 @@ export function Details() {
 
                             <Rating rating={data.movie.rating} />
                         </div>
-
-                        <Button
-                            id="remove"
-                            title="Excluir filme"
-                            onClick={handleRemove}
-                        />
                     </Title>
 
                     <Author>
@@ -105,6 +103,19 @@ export function Details() {
                     <p>
                         {data.movie.description}
                     </p>
+
+                    <div className="buttons">
+                        <Button
+                            id="remove"
+                            title="Excluir filme"
+                            onClick={handleRemove}
+                        />
+                        <Button
+                            id="edit"
+                            title="Editar filme"
+                            onClick={handleEdit}
+                        />
+                    </div>
                 </Content>
             }
 

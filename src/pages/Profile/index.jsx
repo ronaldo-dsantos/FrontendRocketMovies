@@ -36,8 +36,8 @@ export function Profile() {
         const updated = {
             name,
             email,
-            password: newPassword,
-            oldPassword: oldPassword
+            oldPassword,
+            newPassword
         };    
 
         const userUpdated = Object.assign({}, user, updated)
