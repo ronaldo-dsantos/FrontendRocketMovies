@@ -51,9 +51,9 @@ function AuthProvider({ children }) {
 
             if (avatarFile) {
                 const fileUploadForm = new FormData()
-                fileUploadForm.append("avatar", avatarFile)
+                fileUploadForm.append("AvatarFile", avatarFile)
 
-                const avatarResponse = await api.patch("/api/users/avatar", fileUploadForm)
+                const avatarResponse = await api.patch("api/files", fileUploadForm)
                 updatedUser.avatar = avatarResponse.data.avatar
             }
 
@@ -63,29 +63,32 @@ function AuthProvider({ children }) {
                 localStorage.setItem("@rocketmovies:user", JSON.stringify(updatedUser))
                 setData({ user: updatedUser, token: data.token })
 
-                alert("Perfil atualizado com sucesso!")
+                alert("Perfil atualizado com sucesso!")                
             } else {
                 console.log("Erro inesperado na API:", response)
                 alert("Erro ao atualizar o perfil. Tente novamente.")
             }
 
         }catch (error) {
+            console.log("Erro no updateProfile:", error);
+        
             if (error.response) {
-                const errorData = error.response.data
-
+                console.log("Erro da API:", error.response);
+                const errorData = error.response.data;
+        
                 if (errorData.errors) {
                     const messages = Object.values(errorData.errors)
                         .flat()
-                        .join("\n")
-
-                    alert(`${messages}`)
+                        .join("\n");
+        
+                    alert(`${messages}`);
                 } else {
-                    alert(errorData.message || "Não foi possível atualizar.")
+                    alert(errorData.message || "Não foi possível atualizar.");
                 }
             } else {
-                alert("Não foi possível atualizar.")
-            } 
-        }      
+                alert("Erro inesperado ao atualizar o perfil.");
+            }
+        }     
     }
 
     useEffect(() => {
