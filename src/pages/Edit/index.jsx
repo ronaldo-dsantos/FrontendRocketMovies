@@ -69,7 +69,7 @@ export function Edit() {
             tags
         })
 
-        alert("Filme atualizado com sucesso!")
+        alert("Filme editado com sucesso!")
         navigate("/")
     }
 
@@ -160,7 +160,7 @@ export function Edit() {
                             onClick={handleClear}
                         />
                         <Button
-                            title="Salvar alterações"
+                            title="Salvar"
                             onClick={handleEditMovie}
                         />
                     </div>

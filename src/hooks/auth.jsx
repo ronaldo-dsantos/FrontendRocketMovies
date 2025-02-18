@@ -10,7 +10,7 @@ function AuthProvider({ children }) {
     async function SignIn({ email, password }) {
 
         try {
-            const response = await api.post("/api/sessions", { email, password })
+            const response = await api.post("/api/auth", { email, password })
             const { user, token } = response.data
 
             localStorage.setItem("@rocketmovies:user", JSON.stringify(user))
@@ -53,7 +53,7 @@ function AuthProvider({ children }) {
                 const fileUploadForm = new FormData()
                 fileUploadForm.append("AvatarFile", avatarFile)
 
-                const avatarResponse = await api.patch("api/files", fileUploadForm)
+                const avatarResponse = await api.patch("api/avatar", fileUploadForm)
                 updatedUser.avatar = avatarResponse.data.avatar
             }
 

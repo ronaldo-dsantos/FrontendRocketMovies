@@ -8,42 +8,46 @@ import { api } from "../../services/api"
 import avatarPlaceholder from "../../assets/avatar_placeholder.svg"
 
 export function Header({ children }) {
-  const { SignOut, user } = useAuth()
+    const { SignOut, user } = useAuth()
 
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
-  function handleSignOut() {
-    navigate("/")
-    SignOut()
-  }
+    function handleSignOut() {
+        navigate("/")
+        SignOut()
+    }
 
-  const avatarUrl = user.avatar ? `${api.defaults.baseURL}api/files/${user.avatar}` : avatarPlaceholder
+    const avatarUrl = user.avatar ? `${api.defaults.baseURL}/api/avatar/${user.avatar}` : avatarPlaceholder
 
-  return (
-    <Container>
-      <h1>RocketMovies</h1>
+    return (
+        <Container>
+            <h1>
+                <Link to="/">
+                    RocketMovies
+                </Link>
+            </h1>
 
-      <Search>
-        {children}
-      </Search>
+            <Search>
+                {children}
+            </Search>
 
-      <Profile>
-        <div>
-          <Link to="/profile">
-            <strong>{user.name}</strong>
-          </Link>
-          <button type="button" onClick={handleSignOut}>sair</button>
-        </div>
+            <Profile>
+                <div>
+                    <Link to="/profile">
+                        <strong>{user.name}</strong>
+                    </Link>
+                    <button type="button" onClick={handleSignOut}>sair</button>
+                </div>
 
-        <Link to="/profile">
-          <img
-            src={avatarUrl}
-            alt={user.name}
-          />
-        </Link>
+                <Link to="/profile">
+                    <img
+                        src={avatarUrl}
+                        alt={user.name}
+                    />
+                </Link>
 
-      </Profile>
+            </Profile>
 
-    </Container>
-  )
+        </Container>
+    )
 }

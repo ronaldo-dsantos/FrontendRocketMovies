@@ -78,7 +78,7 @@ export function Details() {
 
                     <Author>
                         <img
-                            src={data.userAvatar ? `${api.defaults.baseURL}/api/files/${data.userAvatar}` : avatarPlaceholder}
+                            src={data.userAvatar ? `${api.defaults.baseURL}/api/avatar/${data.userAvatar}` : avatarPlaceholder}
                             alt={data.userName}
                         />
                         <p>{data.userName}</p>
