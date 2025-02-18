@@ -61,16 +61,34 @@ export function Edit() {
         if (tags.length === 0) {
             return alert("Adicione um ou mais marcadores para o seu filme.")
         }
+        try {
+            await api.put(`/api/movies/${id}`, {
+                title,
+                description,
+                rating,
+                tags
+            })
 
-        await api.put(`/api/movies/${id}`, {
-            title,
-            description,
-            rating,
-            tags
-        })
+            alert("Filme editado com sucesso!")
+            navigate("/")
+        } catch (error) {
+            if (error.response) {
+                const errorData = error.response.data
 
-        alert("Filme editado com sucesso!")
-        navigate("/")
+                if (errorData.errors) {
+                    const messages = Object.values(errorData.errors)
+                        .flat()
+                        .join("\n")
+
+                    alert(`${messages}`)
+                } else {
+                    alert(errorData.message || "Não foi possível editar o filme.")
+                }
+            } else {
+                alert("Não foi possível editar o filme.")
+            }
+        }
+
     }
 
     useEffect(() => {

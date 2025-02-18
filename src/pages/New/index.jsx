@@ -63,15 +63,33 @@ export function New() {
             return alert("Adicione um ou mais marcadores para o seu filme.")
         }
 
-        await api.post("/api/movies", {
-            title,
-            description,
-            rating,
-            tags
-        })
+        try {
+            await api.post("/api/movies", {
+                title,
+                description,
+                rating,
+                tags
+            })
+    
+            alert("Filme cadastrado com sucesso!")
+            navigate(-1)            
+        } catch (error) {
+            if (error.response) {
+                const errorData = error.response.data
 
-        alert("Filme cadastrado com sucesso!")
-        navigate(-1)
+                if (errorData.errors) {
+                    const messages = Object.values(errorData.errors)
+                        .flat()
+                        .join("\n")
+
+                    alert(`${messages}`)
+                } else {
+                    alert(errorData.message || "Não foi possível cadastrar o filme.")
+                }
+            } else {
+                alert("Não foi possível cadastrar o filme.")
+            }
+        }     
     }
 
     return (
