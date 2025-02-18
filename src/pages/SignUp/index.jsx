@@ -32,7 +32,7 @@ export function SignUp() {
                     if (errorData.errors) {
                         const messages = Object.values(errorData.errors)
                             .flat()
-                            .join("\n"); 
+                            .join("\n");
 
                         alert(`${messages}`);
                     } else {
