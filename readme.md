@@ -1,6 +1,6 @@
 # Frontend RocketMovies
 
-RocketMovies é uma aplicação web responsiva desenvolvida em React para gerenciar e avaliar filmes. Os usuários podem criar contas, fazer login, adicionar avaliações e gerenciar informações sobre seus filmes favoritos.
+RocketMovies é uma aplicação web responsiva desenvolvida em React para gerenciar e avaliar filmes. Os usuários podem criar contas, fazer login, adicionar e gerenciar informações sobre seus filmes favoritos.
 
 ## 📈 Funcionalidades
 
