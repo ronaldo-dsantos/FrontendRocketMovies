@@ -1,64 +1,70 @@
-# Rocketmovies
+# Frontend RocketMovies
 
-Rocketmovies é uma aplicação web desenvolvida para armazenar e gerenciar informações sobre filmes, permitindo que os usuários avaliem, comentem e atribuam tags aos filmes assistidos.
+RocketMovies é uma aplicação web responsiva desenvolvida em React para gerenciar e avaliar filmes. Os usuários podem criar contas, fazer login, adicionar avaliações e gerenciar informações sobre seus filmes favoritos.
 
-## Índice
+## 📈 Funcionalidades
 
-- [Sobre](#sobre)
-- [Tecnologias](#Tecnologias)
-- [Pré-requisitos](#Pré-requisitos)
-- [Instalação](#instalação)
-- [Contato](#contato)
+- **Cadastro e Login:** 
+    - Registro de usuários e autenticação segura via JWT.
+- **Gerenciamento de Filmes:**
+    - Adicionar novos filmes
+    - Editar detalhes e avaliações
+    - Excluir filmes
+    - Listagem de filmes cadastrados
+- **Perfis de Usuário:**
+    - Atualização de informações
+    - Upload de avatar
 
-## Sobre
+## 👨‍💻 Tecnologias Utilizadas
 
-O Rocketmovies foi criado para que os usuários possam registrar informações sobre os filmes que assistiram. A aplicação permite a atribuição de uma nota (de 1 a 5), adição de comentários pessoais e a categorização dos filmes através de tags.
+- React.js (Vite)
+- React Router DOM (para navegação)
+- Styled Components (para estilização)
+- Axios (para comunicação com a API)
+- Context API (para gerenciamento de autenticação)
+- Local Storage (para armazenamento de sessão)
 
-## Tecnologias
+## 🚀 Instalação e Configuração
 
-- HTML
-- CSS
-- JavaScript
-- React.js
-- Vite
-- Styled-components
+1. **Clonar o Repositório**
 
-## Pré-requisitos
+        ```bash
+        git clone https://github.com/ronaldo-dsantos/FrontendRocketMovies.git
+        cd FrontendRocketMovies
+        ```
 
-- Certifique-se de ter o [Node.js](https://nodejs.org/) e o [Visual Studio Code](https://code.visualstudio.com/download/) instalados em seu sistema.
+2. **Instalar Dependências**
 
-- Para uma experiência completa, é recomendado também clonar e configurar o backend da aplicação disponível em [api-rocketmovies](https://github.com/ronaldo-dsantos/api-rocketmovies/) 
+        ```bash
+        npm install
+        ```
 
-## Instalação
+3. **Executar o Projeto**
 
-Siga os passos abaixo para configurar e rodar a aplicação em sua máquina:
+        ```bash
+        npm run dev
+        ```
 
-1. Abra o terminal e navegue até o diretório onde deseja clonar o projeto:
-```bash 
-cd C:\exemplo
+        A aplicação estará disponível em [http://localhost:5173](http://localhost:5173).
+
+## 🔒 Autenticação
+
+A autenticação é baseada em JWT, e o token é armazenado no Local Storage. As requisições autenticadas devem incluir o cabeçalho:
+
+```http
+Authorization: Bearer SEU_TOKEN_AQUI
 ```
-2. Baixe o clone do projeto com o comando abaixo:
-```bash
-git clone https://github.com/ronaldo-dsantos/rocketmovies.git
-```
-3. Entre no diretório do projeto:
-```bash
-cd rocketmovies
-```
-4. Instale as dependências necessárias:
-```bash
-npm install
-```
-5. Inicie a aplicação em modo de desenvolvimento:
-```bash
-npm run dev
-```
 
-## Contato
+## 📚 Estrutura do Projeto
 
-- Email: ronaldo.dsantos@hotmail.com
-- Linkedin: https://www.linkedin.com/in/ronaldo-domingues/
+- `src/components`: Componentes reutilizáveis (botões, inputs, etc.)
+- `src/pages`: Páginas principais da aplicação
+- `src/services`: Configuração do Axios para chamadas à API
+- `src/context`: Contexto global para autenticação
+- `src/styles`: Estilização global com Styled Components
 
+## 🏆 Licença
 
+Este projeto está licenciado sob a MIT License.
 
-
+## 💙 Desenvolvido por Ronaldo Domingues.
